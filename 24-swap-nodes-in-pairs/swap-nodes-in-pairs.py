@@ -8,27 +8,19 @@ class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head:
             return None
-
-        nodes = []
-        curr = head
-        while curr:
-            nxt = curr.next
-            curr.next = None
-            nodes.append(curr)
-            curr = nxt
         
-        i,j = 0,1
-        while j < len(nodes):
-            nodes[i], nodes[j] = nodes[j], nodes[i]
-            i += 2
-            j += 2
+        dummyNode = ListNode(0, head)
         
-        head = nodes.pop(0)
-        curr = head
-        for node in nodes:
-            curr.next = node
-            curr = node
+        prev, curr = dummyNode, head
+        while curr and curr.next:
+            toSwap = curr.next
+            nextPair = curr.next.next
+
+            prev.next = toSwap
+            toSwap.next = curr
+            curr.next = nextPair
+
+            prev = curr
+            curr = curr.next
         
-        return head
-
-
+        return dummyNode.next
