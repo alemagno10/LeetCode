@@ -2,23 +2,19 @@ class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
         stack = [asteroids[0]]
 
-        for ast in asteroids[1:]:
-            stack.append(ast)
-            while len(stack) > 1:
-                curr, prev = stack[-1], stack[-2]
-                
-                if not self.aboutToCollide(prev, curr):
+        for curr in asteroids[1:]:
+            while len(stack) > 0 and self.aboutToCollide(stack[-1], curr):
+                if abs(stack[-1]) > abs(curr):
+                    curr = 0
+                    break
+                elif abs(stack[-1]) == abs(curr):
+                    curr = 0
+                    stack.pop()
                     break
                 else:
-                    if abs(prev) > abs(curr):
-                        stack.pop()
-                        break
-                    elif abs(prev) == abs(curr):
-                        stack.pop()
-                        stack.pop()
-                        break
-                    else:
-                        stack.pop(-2)
+                    stack.pop()
+            if curr:
+                stack.append(curr)
 
         return stack
     
