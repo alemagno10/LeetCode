@@ -5,20 +5,20 @@ class Solution:
         for ast in asteroids[1:]:
             stack.append(ast)
             while len(stack) > 1:
-                curr, prev = stack.pop(), stack.pop()
+                curr, prev = stack[-1], stack[-2]
                 
                 if not self.aboutToCollide(prev, curr):
-                    stack.append(prev)
-                    stack.append(curr)
                     break
                 else:
                     if abs(prev) > abs(curr):
-                        stack.append(prev)
+                        stack.pop()
                         break
                     elif abs(prev) == abs(curr):
+                        stack.pop()
+                        stack.pop()
                         break
                     else:
-                        stack.append(curr)
+                        stack.pop(-2)
 
         return stack
     
