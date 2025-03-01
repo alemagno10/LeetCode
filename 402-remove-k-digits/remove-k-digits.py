@@ -6,14 +6,10 @@ class Solution:
             while len(stack) > 0 and stack[-1] > digit and k > 0:
                 stack.pop()
                 k -= 1
-            stack.append(digit)
+            if stack or (not stack and digit != "0"):
+                stack.append(digit)
         
-        while k > 0:
-            stack.pop()
-            k -= 1
-
-        while len(stack) > 0 and stack[0] == "0":
-            stack.pop(0)
+        stack = stack[:len(stack)-k]
 
         res = "".join(stack)
         return str(res) if res else "0"
