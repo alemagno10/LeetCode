@@ -28,7 +28,6 @@ class Solution:
                     sub.insert(0, root.val)
                 output += right
             
-            print(output)
             return output  
 
         return dfs(root, targetSum)       
