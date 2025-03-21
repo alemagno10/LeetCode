@@ -7,12 +7,9 @@ class Solution:
         
         #find least significant bit mask
         mask = 1
-        for i in range(32):
-            if singlesXORted & mask == 0:
-                mask <<= 1
-            else:
-                break
-        
+        while singlesXORted & mask == 0:
+            mask <<= 1
+
         groupA, groupB = 0,0
         for n in nums:
             if n & mask == 0:
