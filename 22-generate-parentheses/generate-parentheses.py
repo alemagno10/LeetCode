@@ -1,15 +1,22 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         res = []
-        
-        def dfs(curr,op,cl):
+        curr = []
+
+        def backtracking(op,cl):
             if op == 0 and cl == 0:
-                res.append(curr)
+                res.append("".join(curr))
                 return 
             if op > 0:
-                dfs(curr+"(",op-1,cl)
+                curr.append("(")
+                backtracking(op-1,cl)
+                curr.pop()
             if cl > 0 and cl > op:
-                dfs(curr+")",op,cl-1)
+                curr.append(")")
+                backtracking(op,cl-1)
+                curr.pop()
         
-        dfs("",n,n)
+        backtracking(n,n)
         return res
+
+
