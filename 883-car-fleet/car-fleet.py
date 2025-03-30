@@ -1,18 +1,40 @@
 class Solution:
-    def carFleet(self, target: int, pos: List[int], speed: List[int]) -> int:
-        def time(pos1, pos0, speed):
-            return (pos1 - pos0) / speed
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        time = lambda p,s: (target - p)/s
+        cars = sorted(((p,s,time(p,s)) for p,s in zip(position, speed)), key=lambda x: -x[0])
+        fleets = len(position)
+        currtime = cars[0][2]
 
-        cars = [(pos[i],speed[i],time(target,pos[i],speed[i])) for i in range(len(pos))]
-        cars = sorted(cars, key=lambda x: x[0], reverse=True) 
+        for i in range(1,len(cars)):
+            if cars[i][2] <= currtime:
+                fleets -= 1
+            else:
+                currtime = cars[i][2]
 
-        fleet = len(pos)
-        for i in range(1,len(pos)):
-            prev,curr = cars[i-1], cars[i] 
-            if prev[2] == curr[2]:
-                fleet -= 1
-            elif prev[2] > curr[2]:
-                fleet -= 1
-                cars[i] = (curr[0],curr[1],prev[2])
 
-        return fleet   
+        return fleets
+
+
+
+
+# target = 12, 
+# position = [10,8,0,5,3]
+# speed =    [2,4,1,1,3]
+# time =     [1,1,12,7,3]
+
+# fleet = 3
+# currT <= lastT
+
+# 10,8,0,5,3
+
+# 0,,,3,,5,,,8,,10
+
+# s = so + vt
+# 12 = 10 + 2*t
+
+# 2/2 = t
+# t = 1
+
+# stack = [
+#    7
+# ]
