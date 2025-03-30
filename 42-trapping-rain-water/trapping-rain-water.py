@@ -1,30 +1,23 @@
 class Solution:
-    def trap(self, heights: List[int]) -> int:
-        if not heights:
-            return 0
+    def trap(self, height: List[int]) -> int:
+        water = [0]*len(height)
 
-        l, r = 0, len(heights)-1
-        maxL, maxR = heights[l], heights[r]
-        res = 0
-
-        while l < r:
-            if heights[l] < heights[r]:
-                l += 1
-                amount = maxL - heights[l]
-                if amount > 0:
-                    res += amount
-                maxL = max(maxL, heights[l])
+        heighest = 0
+        for i,wall in enumerate(height):
+            if wall < heighest:
+                water[i] = heighest - wall
             else:
-                r -= 1
-                amount = maxR - heights[r]
-                if amount > 0:
-                    res += amount
-                maxR = max(maxR, heights[r])
-
-        return res
-
-            
+                water[i] = 0
+                heighest = wall
         
-                
-                
+        heighest = 0
+        for i in range(len(height)-1,-1,-1):
+            wall = height[i]
+            if wall < heighest:
+                water[i] = min(water[i], heighest - wall)
+            else:
+                water[i] = 0
+                heighest = wall
+        
+        return sum(water)
 
