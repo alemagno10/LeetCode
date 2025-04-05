@@ -1,5 +1,4 @@
 from collections import defaultdict
-import heapq
 
 class TimeMap:
     def __init__(self):
@@ -8,7 +7,7 @@ class TimeMap:
     
     def set(self, key: str, value: str, timestamp: int) -> None:
         self.hashmap[key][timestamp] = value
-        heappush(self.timestamps[key], timestamp)
+        self.timestamps[key].append(timestamp)
 
     def get(self, key: str, timestamp: int) -> str:
         if (key not in self.hashmap) or len(self.timestamps) == 0:
