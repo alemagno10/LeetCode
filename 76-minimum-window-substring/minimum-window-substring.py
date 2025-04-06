@@ -3,7 +3,7 @@ class Solution:
         if len(t) > len(s):
             return ""
         
-        res = ""
+        res = (-1,10**5)
         window, t_chars = defaultdict(int), defaultdict(int)
 
         def isValid():
@@ -20,9 +20,10 @@ class Solution:
             window[s[r]] += 1
 
             while isValid():
-                if res == "" or 1+r-l < len(res):
-                    res = s[l:r+1]
+                if r-l < res[1] - res[0]:
+                    res = (l,r)
                 window[s[l]] -= 1
                 l += 1
         
-        return res
+        print(res)
+        return s[res[0]:res[1]+1] if res[0] > -1 else ""
