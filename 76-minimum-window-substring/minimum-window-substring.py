@@ -25,5 +25,4 @@ class Solution:
                 window[s[l]] -= 1
                 l += 1
         
-        print(res)
         return s[res[0]:res[1]+1] if res[0] > -1 else ""
