@@ -5,24 +5,27 @@ class Solution:
         
         res = (-1,10**5)
         window, t_chars = defaultdict(int), defaultdict(int)
-
-        def isValid():
-            for c in t_chars:
-                if t_chars[c] > window[c]:
-                    return False
-            return True
+        notGood = set()
 
         for char in t:
             t_chars[char] += 1
+            notGood.add(char)
         
         l = 0
-        for r in range(len(s)):
-            window[s[r]] += 1
+        for r,char in enumerate(s):
+            if char in t_chars:
+                window[char] += 1
+                if char in notGood and window[char] >= t_chars[char]:
+                    notGood.remove(char)
 
-            while isValid():
+            while len(notGood) == 0 and l<=r:
                 if r-l < res[1] - res[0]:
                     res = (l,r)
-                window[s[l]] -= 1
+                
+                if s[l] in t_chars:
+                    window[s[l]] -= 1
+                    if window[s[l]] < t_chars[s[l]]:
+                        notGood.add(s[l])
                 l += 1
         
         return s[res[0]:res[1]+1] if res[0] > -1 else ""
