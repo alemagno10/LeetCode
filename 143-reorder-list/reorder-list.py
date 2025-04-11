@@ -9,23 +9,31 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
+        slow, fast = head, head.next
 
-        queue = []
-        lenght = 0
-        node = head
-        while node:
-            nxt = node.next
-            node.next = None
-            queue.append(node)
-            node = nxt
-            lenght += 1
+        # get LL mid 
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        second = slow.next
+        prev, slow.next = None, None
+
+        # reverse second part
+        while second:
+            tmp = second.next
+            second.next = prev
+            prev = second
+            second = tmp
         
-        queue.pop(0)
-        start = False
-        node = head
-        while len(queue) > 0:
-            node.next = queue.pop(0 if start else -1)
-            node = node.next
-            start = not start
+        first = head
+        second = prev
 
-        return head
+        # merge first and second part
+        while second:
+            T1, T2 = first.next, second.next
+
+            first.next = second
+            second.next = T1
+
+            first, second = T1, T2
