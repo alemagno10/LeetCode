@@ -15,8 +15,8 @@ class Solution:
             l2Val = l2.val if l2 else 0 
 
             s = l1Val + l2Val + carry
-            carry = int(s >= 10)
-            node.next = ListNode(s%10 if s>=10 else s)
+            carry = s//10
+            node.next = ListNode(s%10)
 
             node = node.next
             l1 = l1.next if l1 else None
