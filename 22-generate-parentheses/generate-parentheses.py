@@ -1,22 +1,54 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        res = []
-        curr = []
+        res,curr = [],[]
 
-        def backtracking(op,cl):
-            if op == 0 and cl == 0:
+        def backTracking(openP, closeP):
+            if openP == closeP == 0:
                 res.append("".join(curr))
-                return 
-            if op > 0:
+                return
+            
+            if openP > 0 or openP == closeP:
                 curr.append("(")
-                backtracking(op-1,cl)
+                backTracking(openP-1, closeP)
                 curr.pop()
-            if cl > 0 and cl > op:
+            
+            if openP != closeP:
                 curr.append(")")
-                backtracking(op,cl-1)
+                backTracking(openP, closeP-1)
                 curr.pop()
-        
-        backtracking(n,n)
+
+        backTracking(n,n)
         return res
 
 
+
+
+
+
+
+
+
+
+# 1 - ( 
+# 2 - (()) and ()()
+
+# if n > 1:
+#     two options "(" or ")"
+
+
+# par_remaing 3,3 
+#     if close == open == 0:
+#         res.append(curr)
+
+#     if close = open or close == 0: 
+#         just open
+#     elif open == 0:   
+#         just close
+#     else:
+#         open & close
+
+#             ( 2,3
+#     (( 1,3          () 2,2 
+# ((( 0,3  (() 1,2  ()( 1,2  ()() 1,1
+
+# 2^(2*n)
