@@ -7,22 +7,18 @@
 
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        self.res = False
-
-        def sameTree(root, subRoot):
-            if root and subRoot:
-                return (
-                    root.val == subRoot.val and 
-                    sameTree(root.left, subRoot.left) and 
-                    sameTree(root.right, subRoot.right)
-                )
-            return (root is None) and (subRoot is None)
+        if subRoot is None: 
+            return True
+        if root is None:
+            return False
         
-        def findNode(root, subRoot):
-            if root:
-                if root.val == subRoot.val:
-                    self.res |= sameTree(root, subRoot)
-                return findNode(root.left, subRoot) or findNode(root.right, subRoot)
+        if self.sameTree(root, subRoot):
+            return True
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
 
-        findNode(root, subRoot)
-        return self.res
+    def sameTree(self, root, subRoot):
+        if root and subRoot:
+            return (root.val == subRoot.val and 
+                self.sameTree(root.left, subRoot.left) and 
+                self.sameTree(root.right, subRoot.right))
+        return (root is None) and (subRoot is None)
