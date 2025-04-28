@@ -11,9 +11,11 @@ class Solution:
 
         def sameTree(root, subRoot):
             if root and subRoot:
-                left = sameTree(root.left, subRoot.left) 
-                right = sameTree(root.right, subRoot.right)
-                return root.val == subRoot.val and left and right
+                return (
+                    root.val == subRoot.val and 
+                    sameTree(root.left, subRoot.left) and 
+                    sameTree(root.right, subRoot.right)
+                )
             return (root is None) and (subRoot is None)
         
         def findNode(root, subRoot):
