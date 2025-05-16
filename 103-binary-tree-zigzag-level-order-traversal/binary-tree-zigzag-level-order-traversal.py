@@ -17,20 +17,23 @@ class Solution:
         res = [[]]
 
         while len(queue) > 0:
-            curr = queue.popleft()
-
-            if curr[1] > depth:
-                res.append([])
-                depth += 1
+            if depth % 2 != 0:
+                if queue[0] and queue[0][1] > depth:
+                    depth += 1
+                    res.append([])
+            else:
+                if queue[-1] and queue[-1][1] > depth:
+                    depth += 1
+                    res.append([])
             
+            curr = queue.popleft() if depth % 2 != 0 else queue.pop()
             res[-1].append(curr[0].val)
-            if curr[0].left:
-                queue.append((curr[0].left, depth+1))
-            if curr[0].right:
-                queue.append((curr[0].right, depth+1))
-
-        for i,level in enumerate(res):
-            if i%2==1:
-                level.reverse()
+            
+            if depth % 2 != 0:
+                if curr[0].right: queue.append((curr[0].right, depth+1))
+                if curr[0].left: queue.append((curr[0].left, depth+1))
+            else:
+                if curr[0].left: queue.appendleft((curr[0].left, depth+1))
+                if curr[0].right: queue.appendleft((curr[0].right, depth+1))
 
         return res
