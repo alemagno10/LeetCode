@@ -6,25 +6,26 @@ class Solution:
         for c,p in prerequisites:
             graph[c].add(p)
         
-        def dfs(course, visited):
-            if course in visited:
+        def dfs(course):
+            if course in path:
                 return False
-            if course in order:
+            if course in visited:
                 return True
 
-            visited.add(course)
+            path.add(course)
             for req in graph[course]:
-                if not dfs(req, visited):
+                if not dfs(req):
                     return False
 
-            visited.remove(course)
-            completed.add(course)
+            path.remove(course)
+            visited.add(course)
             order.append(course)
             return True
 
-        order, completed = [], set()
+        order = []
+        visited, path = set(), set()
         for course in range(numCourses):
-            if not dfs(course, set()):
+            if not dfs(course):
                 return []
         
         return order 
