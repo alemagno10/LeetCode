@@ -1,31 +1,31 @@
+from collections import defaultdict
+
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        graph = {i:[] for i in range(numCourses)}
-        for c,d in prerequisites: 
-            graph[c].append(d)
-
-        # states: unvisited; visiting; visited
-        visited, path = set(), set()
-
-        output = []
-        def dfs(course):
-            if course in path:
-                return False
+        graph = defaultdict(set)
+        for c,p in prerequisites:
+            graph[c].add(p)
+        
+        def dfs(course, visited):
             if course in visited:
+                return False
+            if course in order:
                 return True
-            
-            path.add(course)
-            for adj in graph[course]:
-                if not dfs(adj):
+
+            visited.add(course)
+            for req in graph[course]:
+                if not dfs(req, visited):
                     return False
 
-            path.remove(course)
-            visited.add(course)
-            output.append(course)
+            visited.remove(course)
+            completed.add(course)
+            order.append(course)
             return True
-        
-        for i in range(numCourses):
-            if not dfs(i):
+
+        order, completed = [], set()
+        for course in range(numCourses):
+            if not dfs(course, set()):
                 return []
         
-        return output
+        return order 
+
