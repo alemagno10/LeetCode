@@ -5,7 +5,6 @@ class Solution:
 
         def dfs(i):
             if len(nums) <= i:
-                print(curr)
                 res.append(list(curr))
                 return 
 
