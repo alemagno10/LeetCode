@@ -13,7 +13,12 @@ class Solution:
             best = float("inf")           
             for coin in coins:
                 if coin <= amount:
-                    best = min(best, 1+search(amount-coin))
+                    coins_needed = 0
+                    if amount % coin == 0:
+                        coins_needed = amount // coin
+                    else: 
+                        coins_needed = 1+search(amount-coin)
+                    best = min(best, coins_needed)
 
             memo[amount] = best
             return best
