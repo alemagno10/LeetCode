@@ -1,20 +1,24 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        memo, SUM = dict(), sum(nums)
+        SUM = sum(nums)
         if SUM % 2 != 0:
             return False
         
-        def dfs(re, i):
-            key = (re, i)
-            if re <= 0 or len(nums) == i:
-                return re == 0
-            
-            if key in memo:
-                return memo[key]
-            
-            res = dfs(re, i+1) or dfs(re - nums[i], i+1)
-            memo[key] = res
-            return res
-        
         target = SUM/2
-        return dfs(target, 0)
+        dp = set()
+
+        for n in nums:
+            if n == target:
+                return True
+
+            new_sums = set()
+            for curr_sum in dp:
+                curr_sum += n
+                if curr_sum == target:
+                    return True
+                if curr_sum < target:
+                    new_sums.add(curr_sum)
+            dp.add(n)
+            dp.update(new_sums)
+            
+        return False 
