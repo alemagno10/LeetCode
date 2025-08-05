@@ -1,21 +1,20 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        if len(nums) == 0:
+        memo, SUM = dict(), sum(nums)
+        if SUM % 2 != 0:
             return False
-
-        memo = {}
-        def dfs(subset, i):
-            s1, s2 = subset
-            key = (subset,i)
-
-            if i == len(nums):
-                return s1 == s2
+        
+        def dfs(re, i):
+            key = (re, i)
+            if re <= 0 or len(nums) == i:
+                return re == 0
             
             if key in memo:
                 return memo[key]
             
-            res = dfs((s1+nums[i], s2), i+1) or dfs((s1, s2+nums[i]), i+1)
+            res = dfs(re, i+1) or dfs(re - nums[i], i+1)
             memo[key] = res
             return res
         
-        return dfs((0,0),0) 
+        target = SUM/2
+        return dfs(target, 0)
