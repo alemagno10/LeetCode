@@ -3,23 +3,14 @@ class Solution:
         if len(s) < len(t):
             return 0
 
-        memo = {}
-        def dfs(i, j):
-            if j == len(t):
-                return 1
-            if i == len(s):
-                return 0
+        dp = [[0]*(len(s)+1) for i in range(len(t))]
+        dp.insert(0,[1]*(len(s)+1))
 
-            key = (i,j)
-            if key in memo:
-                return memo[key]
-            
-            val = 0
-            if s[i] == t[j]:  
-                val += dfs(i+1, j+1)
-            val += dfs(i+1, j)
+        for i in range(len(t)):
+            for j in range(len(s)):
+                dp[i+1][j+1] = dp[i+1][j] 
+                if t[i] == s[j]:  
+                    dp[i+1][j+1] += dp[i][j] 
 
-            memo[key] = val
-            return val
+        return dp[len(t)][len(s)]
 
-        return dfs(0,0)
