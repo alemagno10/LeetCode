@@ -5,19 +5,16 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        mycopy = deepcopy(nums1[:m])
-        i, j = 0,0
+        k, m, n = (m+n-1), (m-1), (n-1)
 
-        mycopy.append(math.inf)
-        nums2.append(math.inf)
+        while n >= 0 or m >= 0:
+            value1 = nums1[m] if m >= 0 else -math.inf
+            value2 = nums2[n] if n >= 0 else -math.inf
 
-        while i < m or j < n:
-            if mycopy[i] < nums2[j]:
-                nums1[i+j] = mycopy[i]
-                i += 1
+            nums1[k] = max(value1, value2)
+            k -= 1
+
+            if value1 > value2:
+                m -= 1
             else:
-                nums1[i+j] = nums2[j]
-                j += 1
-
-
-
+                n -= 1
