@@ -1,25 +1,19 @@
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        nums = set(nums)
-        visited = set()
-        longest_seq = 0
+        nums, numSet = list(set(nums)), set(nums)
+        visited = dict()
+        lcs = 0
 
-        for curr in nums:
-            if curr in visited:
+        for n in nums:
+            if n in visited:
                 continue
 
             seq = 1
-            less, greater = curr-1, curr+1
-            while less in nums:
-                seq+=1
-                visited.add(less)
-                less-=1
+            while n+seq in numSet:
+                visited[n+seq] = 1
+                seq += 1
 
-            while greater in nums:
-                seq+=1
-                visited.add(greater)
-                greater+=1
-            
-            longest_seq = max(seq, longest_seq)
+            visited[n] = seq
+            lcs = max(lcs, seq)
         
-        return longest_seq
+        return lcs
