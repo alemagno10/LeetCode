@@ -10,6 +10,9 @@ class Solution:
 
             seq = 1
             while n+seq in numSet:
+                if n+seq in visited:
+                    seq += visited[n+seq]
+                    break
                 visited[n+seq] = 1
                 seq += 1
 
