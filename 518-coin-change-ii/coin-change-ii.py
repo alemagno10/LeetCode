@@ -1,21 +1,11 @@
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        memo = {}
-                
-        def dfs(amt, i):
-            if amt <= 0:
-                return int(amt == 0)
-            
-            if i == len(coins):
-                return 0
-            
-            key = (amt,i)
-            if key in memo:
-                return memo[key]
-            
-            res = dfs(amt-coins[i], i) + dfs(amt, i+1)
-            
-            memo[key] = res
-            return res
+        dp = [[0]*(amount+1) for _ in range(len(coins)+1)]
+        for i in range(len(coins)+1):
+            dp[i][0] = 1
+
+        for i in range(1,len(coins)+1):
+            for j in range(1,amount+1):
+                dp[i][j] = dp[i-1][j] + (dp[i][j-coins[i-1]] if j-coins[i-1] >= 0 else 0)
         
-        return dfs(amount,0)
+        return dp[len(coins)][amount]
