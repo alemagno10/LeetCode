@@ -1,27 +1,18 @@
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
-        memo = {}
+        dp = [[0]*(len(word2)+1) for _ in range(len(word1)+1)]
+
+        for i in range(len(word1)+1):
+            dp[i][0] = i
         
-        def dfs(i,j):
-            if len(word1) == i and len(word2) == j:
-                return 0
-            
-            key = (i,j)
-            if key in memo:
-                return memo[key]
-            
-            if i < len(word1) and j < len(word2) and word1[i] == word2[j]:
-                return dfs(i+1, j+1)
-            
-            distance = math.inf
-            if i < len(word1) and j < len(word2):
-                distance = min(distance, 1+dfs(i+1, j+1))
-            if i < len(word1):
-                distance = min(distance, 1+dfs(i+1, j))
-            if j < len(word2):
-                distance = min(distance, 1+dfs(i, j+1))
-            
-            memo[key] = distance
-            return distance
+        for j in range(len(word2)+1):
+            dp[0][j] = j
         
-        return dfs(0,0)
+        for i in range(len(word1)):
+            for j in range(len(word2)):
+                if word1[i] == word2[j]:
+                    dp[i+1][j+1] = dp[i][j]
+                else:
+                    dp[i+1][j+1] = 1+min(dp[i][j], dp[i+1][j], dp[i][j+1])
+        
+        return dp[len(word1)][len(word2)]
