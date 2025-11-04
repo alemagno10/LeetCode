@@ -9,19 +9,15 @@ class Solution:
         dummy = ListNode()
         node = dummy
 
-        while list1 or list2:
-            if list1 and list2:
-                if list1.val < list2.val:
-                    head, list1 = list1, list1.next
-                else:
-                    head, list2 = list2, list2.next
-            
-            elif list1:
+        while list1 and list2:
+            if list1.val < list2.val:
                 head, list1 = list1, list1.next
             else:
                 head, list2 = list2, list2.next
-                
+
             node.next = head
             node = node.next
+        
+        node.next = list1 if list1 else list2
         
         return dummy.next
