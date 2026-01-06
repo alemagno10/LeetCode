@@ -7,7 +7,7 @@ class Solution:
             Return the group that a node belongs.
             """
             if node != parents[node]:
-                parents[node] = find(parents[node])
+                return find(parents[node])
             return parents[node]
 
         def union(n1, n2):
