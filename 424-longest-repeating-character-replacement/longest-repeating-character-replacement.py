@@ -2,21 +2,13 @@ from collections import defaultdict
 
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        l, longestSubstring = 0,0
-        chars = defaultdict(int)
+        counter = defaultdict(int)
+        l, res = 0,0
 
-        def isValid(l,r):
-            mostfreq = max(chars, key=chars.get) 
-            return (1+r-l) - chars[mostfreq] <= k
-            
-        for r in range(len(s)): 
-            chars[s[r]] += 1
-
-            while not isValid(l,r):
-                chars[s[l]] -= 1
-                l += 1
-
-            longestSubstring = max(longestSubstring, 1+r-l)
-
-        return longestSubstring
-
+        for r,c in enumerate(s):
+            counter[c] += 1
+            while r-l+1 - max(counter.values()) > k:
+                counter[s[l]] -= 1
+                l+=1
+            res = max(res,r-l+1)
+        return res
