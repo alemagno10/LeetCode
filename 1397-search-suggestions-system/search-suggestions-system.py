@@ -5,7 +5,7 @@ class Solution:
         for i in range(len(searchWord)):
             res.append([])
             prefix = searchWord[:i+1]
-            for w in products:
+            for w in (res[-1] or products):
                 if w.startswith(prefix):
                     res[i].append(w)
                 if len(res[i]) == 3:
