@@ -6,6 +6,5 @@ class Solution:
         res = []
         for k,v in counter1.items():
             if k in counter2:
-                for i in range(min(v, counter2[k])):
-                    res.append(k)
+                res.extend([k]*min(v, counter2[k]))
         return res
