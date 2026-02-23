@@ -17,15 +17,7 @@ class Trie:
             node = node.children[c] 
 
     def search(self, word: str) -> bool:
-        node = self.head
-        if word not in self.words:
-            return False
-
-        for c in word:
-            if c not in node.children:
-                return False
-            node = node.children[c] 
-        return True
+        return word in self.words
 
     def startsWith(self, prefix: str) -> bool:
         node = self.head
