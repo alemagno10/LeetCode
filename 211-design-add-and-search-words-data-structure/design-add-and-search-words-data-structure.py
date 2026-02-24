@@ -20,10 +20,10 @@ class WordDictionary:
             if i == len(word):
                 return node.end
             if word[i] == ".":
-                res = False
                 for child in node.children:
-                    res |= dfs(node.children[child], i+1)
-                return res
+                    if dfs(node.children[child], i+1):
+                        return True
+                return False
             if word[i] not in node.children:
                 return False
             return dfs(node.children[word[i]],i+1)
