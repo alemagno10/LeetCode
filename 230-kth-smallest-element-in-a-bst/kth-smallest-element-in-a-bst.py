@@ -12,11 +12,10 @@ class Solution:
         def dfs(root, k):
             if root is None:
                 return k
-            left = dfs(root.left, k) - 1
-            if left == 0:
+            k = dfs(root.left, k) - 1
+            if k == 0:
                 res.append(root.val)
-            val = dfs(root.right, left)
-            return val
+            return dfs(root.right, k)
         
         dfs(root, k)
         return res[0]
