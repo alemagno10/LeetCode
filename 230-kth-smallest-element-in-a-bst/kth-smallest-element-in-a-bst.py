@@ -12,7 +12,7 @@ class Solution:
         def dfs(root, k):
             if root is None:
                 return k
-            k = dfs(root.left, k) - 1
+            k = dfs(root.left, k)-1
             if k == 0:
                 res.append(root.val)
             return dfs(root.right, k)
