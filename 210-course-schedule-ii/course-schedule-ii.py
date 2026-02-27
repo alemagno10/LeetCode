@@ -1,32 +1,25 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        graph = defaultdict(set)
-        for c,p in prerequisites:
-            graph[c].add(p)
+        degree = [0]*numCourses
+        noprerequisites = set(range(numCourses))
+        res = []
+
+        graph = defaultdict(list)
+        for a,b in prerequisites:
+            graph[b].append(a)
+            degree[a] += 1
+            if a in noprerequisites:
+                noprerequisites.remove(a)
         
-        def dfs(course):
-            if course in path:
-                return False
-            if course in visited:
-                return True
+        queue = deque(noprerequisites)
+        while queue:
+            curr = queue.popleft()
+            res.append(curr)
+            for d in graph[curr]:
+                degree[d] -= 1
+                if degree[d] == 0:
+                    queue.append(d)
 
-            path.add(course)
-            for req in graph[course]:
-                if not dfs(req):
-                    return False
-
-            path.remove(course)
-            visited.add(course)
-            order.append(course)
-            return True
-
-        order = []
-        visited, path = set(), set()
-        for course in range(numCourses):
-            if not dfs(course):
-                return []
-        
-        return order 
-
+        return res if sum(degree) == 0 else []
