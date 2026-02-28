@@ -1,28 +1,26 @@
-from heapq import heappush, heappop
+from collections import deque
 
 class Solution:
     def longestSubarray(self, nums: List[int], limit: int) -> int:
         lcs, l = 0, 0
-        minheap, maxheap = [], [] 
-        window = {}
+        minQ, maxQ = deque(), deque() 
 
         for r,curr in enumerate(nums):
-            heappush(minheap, curr)
-            heappush(maxheap, -curr)
-            window[curr] = window.get(curr, 0) + 1 
+            while minQ and curr < minQ[-1]:
+                minQ.pop()
+            minQ.append(curr)
 
-            while l<=r and (abs(curr - minheap[0]) > limit or abs(curr + maxheap[0]) > limit):
-                window[nums[l]] -= 1
-                if window[nums[l]] == 0:
-                    window.pop(nums[l])
+            while maxQ and curr > maxQ[-1]:
+                maxQ.pop()
+            maxQ.append(curr)
 
-                while minheap[0] not in window:
-                    heappop(minheap)
-                
-                while -maxheap[0] not in window:
-                    heappop(maxheap)
+            while maxQ and minQ and (maxQ[0] - minQ[0] > limit):
+                if minQ and minQ[0] == nums[l]:
+                    minQ.popleft()
+                if maxQ and maxQ[0] == nums[l]:
+                    maxQ.popleft()
                 l += 1
-            
+
             lcs = max(lcs, r-l+1)
 
         return lcs
