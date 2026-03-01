@@ -9,7 +9,7 @@ class UnionFind:
         return self.par[x]
     
     def union(self, x1, x2):
-        p1, p2 = self.par[x1], self.par[x2]
+        p1, p2 = self.find(x1), self.find(x2)
         if p1 == p2:
             return 0
         if self.rank[p1] > self.rank[p2]:
@@ -29,13 +29,11 @@ class Solution:
         for i, pos in enumerate(positions):
             pos = tuple(pos)
             if pos not in grid:
-                grid[pos] = i
-                curr += 1
-
+                grid[pos], curr = i, curr+1
                 for dx, dy in moves:
                     step = (pos[0]+dx, pos[1]+dy)
                     if step in grid:
-                        curr -= uf.union(uf.find(i), uf.find(grid[step]))
+                        curr -= uf.union(i, grid[step])
             res.append(curr)
         return res
 
