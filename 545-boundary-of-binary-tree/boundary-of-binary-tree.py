@@ -35,14 +35,14 @@ class Solution:
         def dfsR(node):
             if not node:
                 return
-            if isBoundary(node):
-                right.append(node.val)
             if node.right:
                 dfsR(node.right)
             else:
                 dfsR(node.left) 
+            if isBoundary(node):
+                right.append(node.val)
         
         dfs(root)
         dfsL(root.left)
         dfsR(root.right)
-        return [root.val] + left + leaves + right[::-1]
+        return [root.val] + left + leaves + right
