@@ -26,6 +26,8 @@ class Solution:
         res = 1e5
         for row in range(rows):
             index = search(row)
+            if index == 0:
+                return 0
             if index >= 0:
                 res = min(res, index)
         
