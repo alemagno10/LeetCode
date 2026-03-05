@@ -7,14 +7,13 @@ class Solution:
             mid = (l+r)//2
             L, R, MID = nums[l], nums[r], nums[mid]
 
-            if L > R:
-                if L < MID:
-                    l = mid+1
-                else:
-                    res = min(res, MID, R)
-                    r = mid-1
+            if L < MID < R:
+                return min(L, res)
+
+            if L < MID:
+                l = mid+1
             else:
-                res = min(res, L)
-                return res
+                res = min(res, MID, R)
+                r = mid-1
         
         return res
