@@ -24,16 +24,16 @@ class Solution:
         for binary in nums:
             trie.add(binary)
 
-        stack = [(trie.root, [])]
+        stack, valid = [(trie.root, [])], []
         while True:
             node, curr = stack.pop()
             if node.isEnd:
                 continue
             if len(node.children) < 2:
                 valid = curr + ["0" if "1" in node.children else "1"]
-                valid.extend(["0"]*(len(nums)-len(valid)))
-                return "".join(valid)
-
+                break
             stack.append((node.children["1"], curr + ["1"]))
             stack.append((node.children["0"], curr + ["0"]))
+    
+        return "".join(valid) + "0" * (len(nums) - len(valid))
             
