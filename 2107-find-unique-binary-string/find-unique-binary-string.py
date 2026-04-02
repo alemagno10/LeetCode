@@ -23,21 +23,17 @@ class Solution:
         trie = Trie()
         for binary in nums:
             trie.add(binary)
-        
-        def dfs(root, curr):
-            nonlocal valid 
-            if root.isEnd:
-                return
-            if len(root.children) < 2:
-                valid = curr + [root.val, "0" if "1" in root.children else "1"]
-                return
-            curr.append(root.val)
-            dfs(root.children["0"],curr)
-            dfs(root.children["1"],curr)
-            curr.pop()
-        
-        valid = []
-        dfs(trie.root, [])
-        return "".join(valid[1:]+["0"]*(len(nums)-len(valid)+1))
 
+        stack = [(trie.root, [])]
+        while True:
+            node, curr = stack.pop()
+            if node.isEnd:
+                continue
+            if len(node.children) < 2:
+                valid = curr + ["0" if "1" in node.children else "1"]
+                valid.extend(["0"]*(len(nums)-len(valid)))
+                return "".join(valid)
 
+            stack.append((node.children["1"], curr + ["1"]))
+            stack.append((node.children["0"], curr + ["0"]))
+            
