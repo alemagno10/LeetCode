@@ -3,6 +3,7 @@ class Robot:
         self.x = 0
         self.y = 0
         self.direction = 0
+        self.moves = [(0,1), (1,0), (0,-1), (-1,0)]
         self.obstacles = obstacles
     
     def updateDirection(self, turn):
@@ -15,31 +16,16 @@ class Robot:
         return self.x**2 + self.y**2
     
     def move(self, steps):
-        if self.direction == 0:
-            for _ in range(steps):
-                if (self.x, self.y+1) in self.obstacles:
-                    return 
-                self.y += 1 
-        if self.direction == 1:
-            for _ in range(steps):
-                if (self.x+1, self.y) in self.obstacles:
-                    return
-                self.x += 1 
-        if self.direction == 2:
-            for _ in range(steps):
-                if (self.x, self.y-1) in self.obstacles:
-                    return
-                self.y -= 1 
-        if self.direction == 3:
-            for _ in range(steps):
-                if (self.x-1, self.y) in self.obstacles:
-                    return
-                self.x -= 1 
-        
+        dx, dy = self.moves[self.direction]
+        for _ in range(steps):
+            if (self.x+dx, self.y+dy) in self.obstacles:
+                return 
+            self.x += dx 
+            self.y += dy 
 
 class Solution:
     def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
-        robot = Robot(set([tuple(x) for x in obstacles]))
+        robot = Robot(set(map(tuple, obstacles)))
 
         distance = 0
         for command in commands:
@@ -50,5 +36,3 @@ class Solution:
                 distance = max(distance, robot.distFromOrigin())
         
         return distance
-
-
